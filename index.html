@@ -7,6 +7,7 @@
     <style>
       body {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -16,6 +17,7 @@
       }
 
       .loginBox {
+        margin: auto;
         background-color: white;
         width: 300px;
         padding: 30px;
@@ -51,9 +53,13 @@
       button:hover {
         background-color: rgb(80, 0, 13);
       }
+
+      footer{
+        margin-top: auto;
+      }
     </style>
   </head>
-  <body>
+  <body> 
     <div class="loginBox">
       <h2>Login</h2>
       <form onsubmit="login(event)">
@@ -74,7 +80,9 @@
         <button type="submit">Login</button>
       </form>
     </div>
-
+    <footer>
+      <p>&copy; 2023 Parking System. All rights reserved. Developed by Harika, Umar, Gaurav, etc</p>
+    </footer>
     <script>
       // Mock data for users
       const users = [{ mobileNum: "1234567890", password: "password" }];
