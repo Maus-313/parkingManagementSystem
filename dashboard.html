@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: rgb(238, 238, 238);
+      }
+
+      .dashboardBox {
+        background-color: white;
+        width: 80%;
+        max-width: 500px;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .dashboardBox h1 {
+        color: rgb(101, 0, 16);
+      }
+
+      button {
+        padding: 10px;
+        margin: 10px;
+        background-color: rgb(101, 0, 16);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgb(80, 0, 13);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboardBox">
+      <h1>Welcome to the Dashboard!</h1>
+      <p>Choose an action:</p>
+      <button onclick="showAvailableSlots()">Show Available Slots</button>
+      <button onclick="bookSlot(prompt('Enter slot number to book:'))">
+        Book a Slot
+      </button>
+      <button onclick="processPayment()">Process Payment</button>
+      <button onclick="cancelBooking(prompt('Enter slot number to cancel:'))">
+        Cancel Booking
+      </button>
+    </div>
+
+    <script>
+      // Mock data for parking slots (true = available, false = booked)
+      const parkingSlots = Array(10).fill(true); // 10 slots for example
+
+      // Function to show available slots
+      function showAvailableSlots() {
+        const availableSlots = parkingSlots
+          .map((slot, index) => (slot ? index + 1 : null))
+          .filter(Boolean);
+        alert(
+          "Available Parking Slots: " +
+            (availableSlots.length > 0
+              ? availableSlots.join(", ")
+              : "No slots available")
+        );
+      }
+
+      // Function to book a parking slot
+      function bookSlot(slotNumber) {
+        slotNumber = parseInt(slotNumber);
+        if (
+          slotNumber < 1 ||
+          slotNumber > parkingSlots.length ||
+          isNaN(slotNumber)
+        ) {
+          alert("Invalid slot number.");
+          return;
+        }
+        if (parkingSlots[slotNumber - 1]) {
+          parkingSlots[slotNumber - 1] = false;
+          alert(`Slot ${slotNumber} booked successfully!`);
+          sendNotification(`Booking confirmed for slot ${slotNumber}`);
+        } else {
+          alert("Slot already booked.");
+        }
+      }
+
+      // Function to simulate payment processing
+      function processPayment() {
+        alert("Payment successful! Thank you for using our service.");
+      }
+
+      // Function to cancel a booking
+      function cancelBooking(slotNumber) {
+        slotNumber = parseInt(slotNumber);
+        if (
+          slotNumber < 1 ||
+          slotNumber > parkingSlots.length ||
+          isNaN(slotNumber)
+        ) {
+          alert("Invalid slot number.");
+          return;
+        }
+        if (!parkingSlots[slotNumber - 1]) {
+          parkingSlots[slotNumber - 1] = true;
+          alert(`Booking for slot ${slotNumber} cancelled successfully.`);
+          sendNotification(`Booking cancelled for slot ${slotNumber}`);
+        } else {
+          alert("Slot is not booked yet.");
+        }
+      }
+
+      // Function to send notifications
+      function sendNotification(message) {
+        console.log("Notification: " + message); // For now, it just logs the notification
+        alert("Notification: " + message); // Alerts the user with the notification
+      }
+    </script>
+  </body>
+</html>
