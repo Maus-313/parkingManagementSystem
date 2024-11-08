@@ -3,27 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Screen</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Parking System Login</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: rgb(238, 238, 238);
+        font-family: Arial, sans-serif;
+      }
+
+      .loginBox {
+        background-color: white;
+        width: 300px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      .loginBox h2 {
+        color: rgb(101, 0, 16);
+        margin-bottom: 20px;
+      }
+
+      .mobileNumfield,
+      .password {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: rgb(101, 0, 16);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgb(80, 0, 13);
+      }
+    </style>
   </head>
   <body>
     <div class="loginBox">
       <h2>Login</h2>
-      <form>
+      <form onsubmit="login(event)">
         <input
           type="text"
           placeholder="Mobile Number"
           class="mobileNumfield"
+          id="mobileNum"
           required
         />
         <input
           type="password"
           placeholder="Password"
           class="password"
+          id="password"
           required
         />
         <button type="submit">Login</button>
       </form>
     </div>
+
+    <script>
+      // Mock data for users
+      const users = [{ mobileNum: "1234567890", password: "password" }];
+
+      // Function to handle login
+      function login(event) {
+        event.preventDefault();
+        const mobileNum = document.getElementById("mobileNum").value;
+        const password = document.getElementById("password").value;
+
+        const user = users.find(
+          (user) => user.mobileNum === mobileNum && user.password === password
+        );
+        if (user) {
+          alert("Login successful!");
+          window.location.href = "dashboard.html"; // Redirect to dashboard page after login
+        } else {
+          alert("Invalid login credentials");
+        }
+      }
+    </script>
   </body>
 </html>
