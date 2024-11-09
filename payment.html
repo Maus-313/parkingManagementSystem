@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Page</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: rgb(238, 238, 238);
+        margin: 0;
+        padding: 0;
+      }
+
+      .payment-container {
+        width: 50%;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 30px;
+        font-size: 2em;
+      }
+
+      .payment-option {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        margin: 15px;
+        border-radius: 5px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .payment-option:hover {
+        background-color: #0056b3;
+      }
+
+      .total-amount {
+        font-size: 1.5em;
+        margin-bottom: 30px;
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background-color: #ccc;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .back-btn:hover {
+        background-color: #aaa;
+      }
+
+      .success-message {
+        display: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 1.2em;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="payment-container">
+      <h2>Payment Page</h2>
+
+      <div id="amountDisplay" class="total-amount"></div>
+
+      <div>
+        <div class="payment-option" onclick="selectPaymentMethod('Google Pay')">
+          Google Pay
+        </div>
+        <div class="payment-option" onclick="selectPaymentMethod('Paytm')">
+          Paytm
+        </div>
+        <div class="payment-option" onclick="selectPaymentMethod('PhonePe')">
+          PhonePe
+        </div>
+        <div
+          class="payment-option"
+          onclick="selectPaymentMethod('Credit Card')"
+        >
+          Credit Card
+        </div>
+      </div>
+
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">
+        Back
+      </button>
+
+      <button class="back-btn" onclick="payNow()">Pay Now</button>
+
+      <div id="successMessage" class="success-message">Payment Successful!</div>
+    </div>
+
+    <script>
+      let selectedPaymentMethod = null;
+
+      // Display the amount on page load
+      window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const amount = params.get("amount");
+        document.getElementById(
+          "amountDisplay"
+        ).textContent = `Total: ₹${amount}`;
+      };
+
+      // Function to select the payment method
+      function selectPaymentMethod(paymentMethod) {
+        selectedPaymentMethod = paymentMethod;
+        alert(`${paymentMethod} selected.`);
+      }
+
+      // Function to handle the payment process and redirection after success
+      function payNow() {
+        if (selectedPaymentMethod) {
+          // Simulate payment success
+          const successMessage = document.getElementById("successMessage");
+          successMessage.classList.add("show"); // Show success message
+
+          // After 3 seconds, hide the message and redirect to the dashboard page
+          setTimeout(() => {
+            successMessage.classList.remove("show");
+            alert("Payment Successful! Redirecting to the slots page...");
+            window.location.href = "dashboard.html"; // Redirect to dashboard page where availability slots are shown
+          }, 3000); // Time delay before redirect (3 seconds)
+        } else {
+          alert("Please select a payment method first!"); // Alert if no method is selected
+        }
+      }
+    </script>
+  </body>
+</html>

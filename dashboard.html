@@ -3,127 +3,302 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Availability Slots</title>
     <style>
       body {
+        font-family: "Arial", sans-serif;
+        background-color: rgb(238, 238, 238);
+        margin: 0;
+        padding: 0;
+      }
+
+      .dashboard {
+        width: 80%;
+        margin: 30px auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h2 {
+        color: rgb(101, 0, 16);
+        margin-bottom: 30px;
+        font-size: 2em;
+        text-transform: uppercase;
+      }
+
+      .category-container {
         display: flex;
         justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: rgb(238, 238, 238);
+        gap: 20px;
+        margin-bottom: 30px;
       }
 
-      .dashboardBox {
-        background-color: white;
-        width: 80%;
-        max-width: 500px;
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      .category {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        font-size: 1.2em;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
       }
 
-      .dashboardBox h1 {
-        color: rgb(101, 0, 16);
+      .category:hover {
+        background-color: #0056b3;
       }
 
-      button {
-        padding: 10px;
-        margin: 10px;
+      .slot-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 15px;
+        justify-items: center;
+        margin-top: 30px;
+      }
+
+      .slot {
+        padding: 15px;
+        width: 100px;
+        height: 100px;
         background-color: rgb(101, 0, 16);
         color: white;
-        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border: 2px solid #ccc;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      .slot.available {
+        background-color: #28a745;
+      }
+
+      .slot.booked {
+        background-color: #dc3545;
+      }
+
+      .slot.morning {
+        background-color: #219b9d;
+      }
+
+      .slot.afternoon {
+        background-color: #cb9df0;
+      }
+
+      .slot.evening {
+        background-color: #ff77b7;
+      }
+
+      .slot.night {
+        background-color: #7e60bf;
+      }
+
+      .slot:hover {
+        transform: scale(1.05);
+      }
+
+      .notification {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 1.1em;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        display: none;
+        transition: opacity 0.5s ease;
+      }
+
+      .notification.show {
+        display: block;
+        opacity: 1;
+      }
+
+      .notification.hide {
+        opacity: 0;
+        display: none;
+      }
+
+      .book-btn {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        font-size: 1em;
         border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+      }
+
+      .book-btn:hover {
+        background-color: #0056b3;
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 10px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
         cursor: pointer;
       }
 
-      button:hover {
-        background-color: rgb(80, 0, 13);
+      input[type="time"] {
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 20px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .submit-btn {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        font-size: 1.2em;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .submit-btn:hover {
+        background-color: #218838;
       }
     </style>
   </head>
   <body>
-    <div class="dashboardBox">
-      <h1>Welcome to the Dashboard!</h1>
-      <p>Choose an action:</p>
-      <button onclick="showAvailableSlots()">Show Available Slots</button>
-      <button onclick="bookSlot(prompt('Enter slot number to book:'))">
-        Book a Slot
-      </button>
-      <button onclick="processPayment()">Process Payment</button>
-      <button onclick="cancelBooking(prompt('Enter slot number to cancel:'))">
-        Cancel Booking
-      </button>
+    <div class="dashboard">
+      <h2>Availability Slots</h2>
+
+      <!-- Time Category Selection -->
+      <div class="category-container">
+        <div class="category" onclick="showSlots('morning')">Morning</div>
+        <div class="category" onclick="showSlots('afternoon')">Afternoon</div>
+        <div class="category" onclick="showSlots('evening')">Evening</div>
+        <div class="category" onclick="showSlots('night')">Night</div>
+      </div>
+
+      <!-- Slot Container (Initially Empty) -->
+      <div id="slotsContainer" class="slot-container"></div>
+
+      <div id="notification" class="notification"></div>
+    </div>
+
+    <!-- Modal for Booking -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Book Your Slot</h2>
+        <form id="bookingForm">
+          <label for="time">Select Time (HH:MM):</label>
+          <input type="time" id="time" required />
+          <p id="amountDisplay">Amount: ₹0</p>
+          <button type="submit" class="submit-btn">Book Now</button>
+        </form>
+      </div>
     </div>
 
     <script>
-      // Mock data for parking slots (true = available, false = booked)
-      const parkingSlots = Array(10).fill(true); // 10 slots for example
+      let slots = {
+        morning: Array(10).fill({ status: "available" }),
+        afternoon: Array(10).fill({ status: "available" }),
+        evening: Array(10).fill({ status: "available" }),
+        night: Array(10).fill({ status: "available" }),
+      };
 
-      // Function to show available slots
-      function showAvailableSlots() {
-        const availableSlots = parkingSlots
-          .map((slot, index) => (slot ? index + 1 : null))
-          .filter(Boolean);
-        alert(
-          "Available Parking Slots: " +
-            (availableSlots.length > 0
-              ? availableSlots.join(", ")
-              : "No slots available")
-        );
-      }
+      // Show the slots based on selected category
+      function showSlots(category) {
+        const slotsContainer = document.getElementById("slotsContainer");
+        slotsContainer.innerHTML = "";
 
-      // Function to book a parking slot
-      function bookSlot(slotNumber) {
-        slotNumber = parseInt(slotNumber);
-        if (
-          slotNumber < 1 ||
-          slotNumber > parkingSlots.length ||
-          isNaN(slotNumber)
-        ) {
-          alert("Invalid slot number.");
-          return;
-        }
-        if (parkingSlots[slotNumber - 1]) {
-          parkingSlots[slotNumber - 1] = false;
-          alert(`Slot ${slotNumber} booked successfully!`);
-          sendNotification(`Booking confirmed for slot ${slotNumber}`);
-        } else {
-          alert("Slot already booked.");
+        let slotClass = `slot ${category}`;
+
+        for (let i = 0; i < 10; i++) {
+          const slotElement = document.createElement("div");
+          const slotId = category + (i + 1);
+          slotElement.className = `${slotClass} ${slots[category][i].status}`;
+          slotElement.id = slotId;
+          slotElement.innerHTML = `Slot ${i + 1}`;
+
+          const bookButton = document.createElement("button");
+          bookButton.className = "book-btn";
+          bookButton.innerText = "Book";
+          bookButton.onclick = function () {
+            openModal(slotId);
+          };
+
+          slotElement.appendChild(bookButton);
+          slotsContainer.appendChild(slotElement);
         }
       }
 
-      // Function to simulate payment processing
-      function processPayment() {
-        alert("Payment successful! Thank you for using our service.");
+      function openModal(slotId) {
+        const modal = document.getElementById("myModal");
+        const timeInput = document.getElementById("time");
+        const amountDisplay = document.getElementById("amountDisplay");
+        modal.style.display = "block";
+
+        timeInput.addEventListener("input", function () {
+          const timeValue = timeInput.value;
+          const [hours, minutes] = timeValue.split(":").map(Number);
+          const totalHours = hours + minutes / 60;
+          const amount = totalHours * 50;
+          amountDisplay.textContent = `Amount: ₹${amount.toFixed(2)}`;
+        });
+
+        const form = document.getElementById("bookingForm");
+        form.onsubmit = function (event) {
+          event.preventDefault();
+          const time = document.getElementById("time").value;
+          if (time) {
+            const amount = parseFloat(
+              amountDisplay.textContent.replace("Amount: ₹", "")
+            );
+            window.location.href = `payment.html?amount=${amount}`;
+          }
+        };
       }
 
-      // Function to cancel a booking
-      function cancelBooking(slotNumber) {
-        slotNumber = parseInt(slotNumber);
-        if (
-          slotNumber < 1 ||
-          slotNumber > parkingSlots.length ||
-          isNaN(slotNumber)
-        ) {
-          alert("Invalid slot number.");
-          return;
-        }
-        if (!parkingSlots[slotNumber - 1]) {
-          parkingSlots[slotNumber - 1] = true;
-          alert(`Booking for slot ${slotNumber} cancelled successfully.`);
-          sendNotification(`Booking cancelled for slot ${slotNumber}`);
-        } else {
-          alert("Slot is not booked yet.");
-        }
-      }
-
-      // Function to send notifications
-      function sendNotification(message) {
-        console.log("Notification: " + message); // For now, it just logs the notification
-        alert("Notification: " + message); // Alerts the user with the notification
+      function closeModal() {
+        const modal = document.getElementById("myModal");
+        modal.style.display = "none";
       }
     </script>
   </body>

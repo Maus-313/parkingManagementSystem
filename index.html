@@ -7,7 +7,6 @@
     <style>
       body {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -17,7 +16,6 @@
       }
 
       .loginBox {
-        margin: auto;
         background-color: white;
         width: 300px;
         padding: 30px;
@@ -53,26 +51,22 @@
       button:hover {
         background-color: rgb(80, 0, 13);
       }
-
-      footer{
-        margin-top: auto;
-      }
     </style>
   </head>
-  <body> 
+  <body>
     <div class="loginBox">
       <h2>Login</h2>
       <form onsubmit="login(event)">
         <input
           type="text"
-          placeholder="Mobile Number"
+          placeholder="Mobile Number (+91)"
           class="mobileNumfield"
           id="mobileNum"
           required
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password (8 characters or more)"
           class="password"
           id="password"
           required
@@ -80,28 +74,31 @@
         <button type="submit">Login</button>
       </form>
     </div>
-    <footer>
-      <p>&copy; 2023 Parking System. All rights reserved. Developed by Harika, Umar, Gaurav, etc</p>
-    </footer>
-    <script>
-      // Mock data for users
-      const users = [{ mobileNum: "1234567890", password: "password" }];
 
-      // Function to handle login
+    <script>
       function login(event) {
         event.preventDefault();
         const mobileNum = document.getElementById("mobileNum").value;
         const password = document.getElementById("password").value;
 
-        const user = users.find(
-          (user) => user.mobileNum === mobileNum && user.password === password
-        );
-        if (user) {
-          alert("Login successful!");
-          window.location.href = "dashboard.html"; // Redirect to dashboard page after login
-        } else {
-          alert("Invalid login credentials");
+        // Mobile number validation for +91 and 10 digits
+        const mobileRegex = /^\+91\d{10}$/;
+        if (!mobileRegex.test(mobileNum)) {
+          alert(
+            "Please enter a valid Indian mobile number (+91 followed by 10 digits)."
+          );
+          return;
         }
+
+        // Password validation (minimum 8 characters)
+        if (password.length < 8) {
+          alert("Password must be 8 characters or more.");
+          return;
+        }
+
+        // Simulate successful login
+        alert("Login successful!");
+        window.location.href = "dashboard.html"; // Redirect to dashboard after successful login
       }
     </script>
   </body>
