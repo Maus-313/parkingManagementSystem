@@ -81,6 +81,10 @@
         const mobileNum = document.getElementById("mobileNum").value;
         const password = document.getElementById("password").value;
 
+        // Sample login credentials
+        const sampleMobileNum = "+919876543210";
+        const samplePassword = "password123";
+
         // Mobile number validation for +91 and 10 digits
         const mobileRegex = /^\+91\d{10}$/;
         if (!mobileRegex.test(mobileNum)) {
@@ -97,8 +101,12 @@
         }
 
         // Simulate successful login
-        alert("Login successful!");
-        window.location.href = "dashboard.html"; // Redirect to dashboard after successful login
+        if (mobileNum === sampleMobileNum && password === samplePassword) {
+          alert("Login successful!");
+          window.location.href = "dashboard.html"; // Redirect to dashboard after successful login
+        } else {
+          alert("Invalid login credentials.");
+        }
       }
     </script>
   </body>
