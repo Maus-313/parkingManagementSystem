@@ -13,9 +13,11 @@
         margin: 0;
         background-color: rgb(238, 238, 238);
         font-family: Arial, sans-serif;
+        flex-direction: column;
       }
 
       .loginBox {
+        margin: auto;
         background-color: white;
         width: 300px;
         padding: 30px;
@@ -51,6 +53,10 @@
       button:hover {
         background-color: rgb(80, 0, 13);
       }
+
+      footer{
+        margin-top: auto;
+      }
     </style>
   </head>
   <body>
@@ -74,6 +80,9 @@
         <button type="submit">Login</button>
       </form>
     </div>
+    <footer>
+      <p>&copy; 2024 Parking System. All rights reserved. Developed by Harika, Umar, Gaurav and Adil</p>
+      </footer>
 
     <script>
       function login(event) {
