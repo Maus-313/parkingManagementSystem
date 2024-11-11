@@ -1,174 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Slot - Online Parking Management</title>
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        background: linear-gradient(
-          45deg,
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Slot - Online Parking Management</title>
+  <style>
+    body {
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(45deg,
           #00bcd4,
-          #9c27b0
-        ); /* Teal to Purple */
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
+          #9c27b0);
+      /* Teal to Purple */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      display: block;
+      text-align: left;
+      color: #555;
+    }
+
+    input[type="time"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin: 10px 0;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="time"]:focus {
+      border-color: #00bcd4;
+      outline: none;
+    }
+
+    .amount {
+      font-size: 1.5rem;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 14px;
+      width: 100%;
+      font-size: 1.3rem;
+      background-color: #9c27b0;
+      /* Purple Button */
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #8e24aa;
+      /* Darker Purple on Hover */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Book Your Parking Slot</h1>
+    <form id="booking-form">
+      <label for="time">Select Parking Duration:</label>
+      <input type="time" id="time" name="time" required />
+      <div class="amount">
+        <p>Amount: ₹<span id="amount">0.00</span></p>
+      </div>
+      <button type="submit">Proceed to Payment</button>
+    </form>
+  </div>
+
+  <script>
+    const ratePerHour = 50;
+    let slotId = "A1";
+
+    // Calculate price based on selected time
+    document.getElementById("time").addEventListener("input", function () {
+      const time = this.value;
+
+      // Validate time: Ensure time is not "00:00" or empty
+      if (time === "00:00" || time === "") {
+        document.getElementById("amount").innerText = "Enter correct time";
+        return;
       }
 
-      .container {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        width: 100%;
-        text-align: center;
-        box-sizing: border-box;
-      }
+      const [hours, minutes] = time.split(":").map(Number);
+      const totalTimeInHours = hours + minutes / 60;
+      const amount = totalTimeInHours * ratePerHour;
+      document.getElementById("amount").innerText = amount.toFixed(2);
+    });
 
-      h1 {
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 30px;
-      }
+    // Handle form submission and redirect to payment page
+    document
+      .getElementById("booking-form")
+      .addEventListener("submit", function (e) {
+        e.preventDefault();
 
-      label {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        display: block;
-        text-align: left;
-        color: #555;
-      }
+        const selectedTime = document.getElementById("time").value;
 
-      input[type="time"] {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.2rem;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        margin: 10px 0;
-        transition: border-color 0.3s ease;
-      }
-
-      input[type="time"]:focus {
-        border-color: #00bcd4;
-        outline: none;
-      }
-
-      .amount {
-        font-size: 1.5rem;
-        color: #333;
-        margin-top: 15px;
-      }
-
-      button {
-        padding: 14px;
-        width: 100%;
-        font-size: 1.3rem;
-        background-color: #9c27b0; /* Purple Button */
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-top: 20px;
-      }
-
-      button:hover {
-        background-color: #8e24aa; /* Darker Purple on Hover */
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Book Your Parking Slot</h1>
-      <form id="booking-form">
-        <label for="time">Select Parking Duration:</label>
-        <input type="time" id="time" name="time" required />
-        <div class="amount">
-          <p>Amount: ₹<span id="amount">0.00</span></p>
-        </div>
-        <button type="submit">Proceed to Payment</button>
-      </form>
-    </div>
-
-    <script>
-      const ratePerHour = 50;
-
-      // Calculate price based on selected time
-      document.getElementById("time").addEventListener("input", function () {
-        const time = this.value;
-
-        // Validate time: Ensure time is not "00:00" or empty
-        if (time === "00:00" || time === "") {
-          document.getElementById("amount").innerText = "Enter correct time";
+        // Validate selected time
+        if (selectedTime === "00:00" || selectedTime === "") {
+          alert("Please enter a valid time.");
           return;
         }
 
-        const [hours, minutes] = time.split(":").map(Number);
-        const totalTimeInHours = hours + minutes / 60;
-        const amount = totalTimeInHours * ratePerHour;
-        document.getElementById("amount").innerText = amount.toFixed(2);
+        const slot = getSlotFromTime(selectedTime);
+        const amount =
+          (parseInt(selectedTime.split(":")[0]) +
+            parseInt(selectedTime.split(":")[1]) / 60) *
+          ratePerHour;
+
+        // Store the selected slot and amount in localStorage
+        localStorage.setItem("bookedSlot", slot);
+        localStorage.setItem("bookingAmount", amount);
+
+        alert("Booking Successful! Proceeding to Payment...");
+        location.href = "payment.html"; // Redirect to payment page
       });
 
-      // Handle form submission and redirect to payment page
-      document
-        .getElementById("booking-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+    // Function to determine the slot based on the time
+    function getSlotFromTime(time) {
+      const [hours] = time.split(":").map(Number);
+      if (hours >= 0 && hours < 12) {
+        return "Morning";
+      } else if (hours >= 12 && hours < 17) {
+        return "Afternoon";
+      } else {
+        return "Evening";
+      }
+    }
 
-          const selectedTime = document.getElementById("time").value;
+    // On page load, check if payment was successful and update availability
+    window.onload = function () {
+      const paymentSuccess = localStorage.getItem("paymentSuccess");
 
-          // Validate selected time
-          if (selectedTime === "00:00" || selectedTime === "") {
-            alert("Please enter a valid time.");
-            return;
-          }
-
-          const slot = getSlotFromTime(selectedTime);
-          const amount =
-            (parseInt(selectedTime.split(":")[0]) +
-              parseInt(selectedTime.split(":")[1]) / 60) *
-            ratePerHour;
-
-          // Store the selected slot and amount in localStorage
-          localStorage.setItem("bookedSlot", slot);
-          localStorage.setItem("bookingAmount", amount);
-
-          alert("Booking Successful! Proceeding to Payment...");
-          location.href = "payment.html"; // Redirect to payment page
-        });
-
-      // Function to determine the slot based on the time
-      function getSlotFromTime(time) {
-        const [hours] = time.split(":").map(Number);
-        if (hours >= 0 && hours < 12) {
-          return "Morning";
-        } else if (hours >= 12 && hours < 17) {
-          return "Afternoon";
-        } else {
-          return "Evening";
-        }
+      if (paymentSuccess === "true") {
+        // Mark the slot as booked in availability page
+        localStorage.removeItem("paymentSuccess"); // Clear the flag
+        alert("Payment Successful! Slot booked.");
+        // Redirect to availability page
+        window.location.href = "availability.html";
       }
 
-      // On page load, check if payment was successful and update availability
-      window.onload = function () {
-        const paymentSuccess = localStorage.getItem("paymentSuccess");
+      if (bookedSlot === "booked") {
+        alert("This slot is already booked.");
+        // You can disable the booking form or redirect to a different page if needed
+        document.getElementById("booking-form").style.display = "none";
+      }
+    };
+  </script>
+</body>
 
-        if (paymentSuccess === "true") {
-          // Mark the slot as booked in availability page
-          localStorage.removeItem("paymentSuccess"); // Clear the flag
-          alert("Payment Successful! Slot booked.");
-          // Redirect to availability page
-          window.location.href = "availability.html";
-        }
-      };
-    </script>
-  </body>
 </html>

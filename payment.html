@@ -1,266 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment - Online Parking Management</title>
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        background: linear-gradient(45deg, #ff6a00, #ee0979);
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-      }
 
-      .container {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        width: 100%;
-        text-align: center;
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment - Online Parking Management</title>
+  <style>
+    body {
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(45deg, #ff6a00, #ee0979);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-      h1 {
-        font-size: 2.5rem;
-        color: #333;
-        margin-bottom: 20px;
-      }
+    .container {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
 
-      .payment-methods {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-      }
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
 
-      .payment-method {
-        background-color: #f0f0f0;
-        border-radius: 10px;
-        padding: 20px;
-        width: 120px;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        text-align: center;
-      }
+    .payment-methods {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
 
-      .payment-method:hover {
-        transform: scale(1.1);
-      }
+    .payment-method {
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 20px;
+      width: 120px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
 
-      .credit-card-details {
-        display: none;
-        margin-top: 20px;
-        text-align: left;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #f7f7f7;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
+    .payment-method:hover {
+      transform: scale(1.1);
+    }
 
-      .credit-card-details input {
-        width: 100%;
-        padding: 12px;
-        font-size: 1.1rem;
-        margin: 10px 0;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        box-sizing: border-box;
-      }
+    .credit-card-details {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #f7f7f7;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-      .credit-card-details input:focus {
-        border-color: #00bcd4;
-        outline: none;
-      }
+    .credit-card-details input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      margin: 10px 0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
 
-      .pay-now-btn {
-        padding: 14px;
-        width: 100%;
-        font-size: 1.3rem;
-        background-color: #00bcd4;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+    .credit-card-details input:focus {
+      border-color: #00bcd4;
+      outline: none;
+    }
 
-      .pay-now-btn:hover {
-        background-color: #0097a7;
-      }
+    .pay-now-btn {
+      padding: 14px;
+      width: 100%;
+      font-size: 1.3rem;
+      background-color: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-      .notification {
-        margin-top: 20px;
-        padding: 12px;
-        font-size: 1.1rem;
-        border-radius: 8px;
-        display: none;
-        transition: all 0.5s ease-in-out;
-      }
+    .pay-now-btn:hover {
+      background-color: #0097a7;
+    }
 
-      .notification.selected {
-        background-color: #4caf50;
-        color: white;
-      }
+    .notification {
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      display: none;
+      transition: all 0.5s ease-in-out;
+    }
 
-      .notification.payment-success {
-        background-color: #ff9800;
-        color: white;
-      }
+    .notification.selected {
+      background-color: #4caf50;
+      color: white;
+    }
 
-      .notification.error {
-        background-color: #f44336;
-        color: white;
-      }
+    .notification.payment-success {
+      background-color: #ff9800;
+      color: white;
+    }
 
-      .back-btn {
-        margin-top: 20px;
-        padding: 12px;
-        font-size: 1.2rem;
-        background-color: #ff6a00;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-      }
+    .notification.error {
+      background-color: #f44336;
+      color: white;
+    }
 
-      .back-btn:hover {
-        background-color: #ee0979;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Payment</h1>
-      <div class="payment-methods">
-        <div class="payment-method" id="google-pay">
-          <p>Google Pay</p>
-        </div>
-        <div class="payment-method" id="paytm">
-          <p>Paytm</p>
-        </div>
-        <div class="payment-method" id="phonepe">
-          <p>PhonePe</p>
-        </div>
-        <div class="payment-method" id="credit-card">
-          <p>Credit Card</p>
-        </div>
+    .back-btn {
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 1.2rem;
+      background-color: #ff6a00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background-color: #ee0979;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Payment</h1>
+    <div class="payment-methods">
+      <div class="payment-method" id="google-pay">
+        <p>Google Pay</p>
       </div>
-
-      <div class="credit-card-details" id="credit-card-details">
-        <label for="card-number">Card Number (16 digits)</label>
-        <input
-          type="text"
-          id="card-number"
-          placeholder="Enter Card Number"
-          maxlength="16"
-        />
-
-        <label for="cvv">CVV (3 digits)</label>
-        <input type="text" id="cvv" placeholder="Enter CVV" maxlength="3" />
+      <div class="payment-method" id="paytm">
+        <p>Paytm</p>
       </div>
-
-      <button class="pay-now-btn" id="pay-now">Pay Now</button>
-
-      <div class="notification" id="notification"></div>
-
-      <button class="back-btn" id="back-btn">Go Back</button>
+      <div class="payment-method" id="phonepe">
+        <p>PhonePe</p>
+      </div>
+      <div class="payment-method" id="credit-card">
+        <p>Credit Card</p>
+      </div>
     </div>
 
-    <script>
-      let selectedPaymentMethod = "";
+    <div class="credit-card-details" id="credit-card-details">
+      <label for="card-number">Card Number (16 digits)</label>
+      <input type="text" id="card-number" placeholder="Enter Card Number" maxlength="16" />
 
-      // Handle selection of payment method
-      document
-        .getElementById("google-pay")
-        .addEventListener("click", function () {
-          selectedPaymentMethod = "Google Pay";
-          showNotification("Payment method selected: Google Pay", "selected");
-          hideCreditCardDetails();
-        });
+      <label for="cvv">CVV (3 digits)</label>
+      <input type="text" id="cvv" placeholder="Enter CVV" maxlength="3" />
+    </div>
 
-      document.getElementById("paytm").addEventListener("click", function () {
-        selectedPaymentMethod = "Paytm";
-        showNotification("Payment method selected: Paytm", "selected");
+    <button class="pay-now-btn" id="pay-now">Pay Now</button>
+
+    <div class="notification" id="notification"></div>
+
+    <button class="back-btn" id="back-btn">Go Back</button>
+  </div>
+
+  <script>
+    let selectedPaymentMethod = "";
+
+    // Handle selection of payment method
+    document
+      .getElementById("google-pay")
+      .addEventListener("click", function () {
+        selectedPaymentMethod = "Google Pay";
+        showNotification("Payment method selected: Google Pay", "selected");
         hideCreditCardDetails();
       });
 
-      document.getElementById("phonepe").addEventListener("click", function () {
-        selectedPaymentMethod = "PhonePe";
-        showNotification("Payment method selected: PhonePe", "selected");
-        hideCreditCardDetails();
+    document.getElementById("paytm").addEventListener("click", function () {
+      selectedPaymentMethod = "Paytm";
+      showNotification("Payment method selected: Paytm", "selected");
+      hideCreditCardDetails();
+    });
+
+    document.getElementById("phonepe").addEventListener("click", function () {
+      selectedPaymentMethod = "PhonePe";
+      showNotification("Payment method selected: PhonePe", "selected");
+      hideCreditCardDetails();
+    });
+
+    document
+      .getElementById("credit-card")
+      .addEventListener("click", function () {
+        selectedPaymentMethod = "Credit Card";
+        showNotification("Payment method selected: Credit Card", "selected");
+        showCreditCardDetails();
       });
 
-      document
-        .getElementById("credit-card")
-        .addEventListener("click", function () {
-          selectedPaymentMethod = "Credit Card";
-          showNotification("Payment method selected: Credit Card", "selected");
-          showCreditCardDetails();
-        });
+    // Show notification function with different colors
+    function showNotification(message, type) {
+      const notification = document.getElementById("notification");
+      notification.style.display = "block";
+      notification.innerText = message;
+      notification.className = "notification " + type;
+      setTimeout(() => {
+        notification.style.display = "none";
+      }, 3000); // Hide notification after 3 seconds
+    }
 
-      // Show notification function with different colors
-      function showNotification(message, type) {
-        const notification = document.getElementById("notification");
-        notification.style.display = "block";
-        notification.innerText = message;
-        notification.className = "notification " + type;
-        setTimeout(() => {
-          notification.style.display = "none";
-        }, 3000); // Hide notification after 3 seconds
-      }
+    // Show credit card details form
+    function showCreditCardDetails() {
+      document.getElementById("credit-card-details").style.display = "block";
+    }
 
-      // Show credit card details form
-      function showCreditCardDetails() {
-        document.getElementById("credit-card-details").style.display = "block";
-      }
+    // Hide credit card details form
+    function hideCreditCardDetails() {
+      document.getElementById("credit-card-details").style.display = "none";
+    }
 
-      // Hide credit card details form
-      function hideCreditCardDetails() {
-        document.getElementById("credit-card-details").style.display = "none";
-      }
+    // Handle payment process
+    document.getElementById("pay-now").addEventListener("click", function () {
+      if (!selectedPaymentMethod) {
+        showNotification("Please select a payment method first.", "error");
+      } else if (selectedPaymentMethod === "Credit Card") {
+        const cardNumber = document.getElementById("card-number").value;
+        const cvv = document.getElementById("cvv").value;
 
-      // Handle payment process
-      document.getElementById("pay-now").addEventListener("click", function () {
-        if (!selectedPaymentMethod) {
-          showNotification("Please select a payment method first.", "error");
-        } else if (selectedPaymentMethod === "Credit Card") {
-          const cardNumber = document.getElementById("card-number").value;
-          const cvv = document.getElementById("cvv").value;
-
-          if (cardNumber.length !== 16 || cvv.length !== 3) {
-            showNotification(
-              "Card number must be 16 digits and CVV must be 3 digits.",
-              "error"
-            );
-          } else {
-            setTimeout(() => {
-              showNotification(
-                "Your payment was successful!",
-                "payment-success"
-              );
-              document.getElementById("pay-now").disabled = true;
-
-              // Update the slot status in localStorage to "booked"
-              const selectedSlot = localStorage.getItem("selectedSlot");
-              localStorage.setItem(`${selectedSlot}`, "booked");
-
-              // Redirect to availability slots page after payment
-              setTimeout(() => {
-                location.href = "availability.html"; // Redirect to availability slots page
-              }, 2000); // Wait for 2 seconds before redirect
-            }, 1000);
-          }
+        if (cardNumber.length !== 16 || cvv.length !== 3) {
+          showNotification(
+            "Card number must be 16 digits and CVV must be 3 digits.",
+            "error"
+          );
         } else {
-          // Simulate payment success for other methods
           setTimeout(() => {
-            showNotification("Your payment was successful!", "payment-success");
+            showNotification(
+              "Your payment was successful!",
+              "payment-success"
+            );
             document.getElementById("pay-now").disabled = true;
 
             // Update the slot status in localStorage to "booked"
@@ -269,18 +250,35 @@
 
             // Redirect to availability slots page after payment
             setTimeout(() => {
-              location.href = "availability.html"; // Redirect to availability slots page
+              location.href = "dashboard.html"; // Redirect to availability slots page
             }, 2000); // Wait for 2 seconds before redirect
-          }, 500);
+          }, 1000);
         }
-      });
+      } else {
+        // Simulate payment success for other methods
+        setTimeout(() => {
+          showNotification("Your payment was successful!", "payment-success");
+          document.getElementById("pay-now").disabled = true;
 
-      // Go back to availability page
-      document
-        .getElementById("back-btn")
-        .addEventListener("click", function () {
-          location.href = "dashboard.html";
-        });
-    </script>
-  </body>
+          // Update the slot status in localStorage to "booked"
+          const selectedSlot = localStorage.getItem("selectedSlot");
+          localStorage.setItem(`${selectedSlot}`, "booked");
+
+          // Redirect to availability slots page after payment
+          setTimeout(() => {
+            location.href = "dashboard.html"; // Redirect to availability slots page
+          }, 2000); // Wait for 2 seconds before redirect
+        }, 500);  
+      }
+    });
+
+    // Go back to availability page
+    document
+      .getElementById("back-btn")
+      .addEventListener("click", function () {
+        location.href = "dashboard.html";
+      });
+  </script>
+</body>
+
 </html>
