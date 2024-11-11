@@ -104,6 +104,13 @@
       // Calculate price based on selected time
       document.getElementById("time").addEventListener("input", function () {
         const time = this.value;
+
+        // Validate time: Ensure time is not "00:00" or empty
+        if (time === "00:00" || time === "") {
+          document.getElementById("amount").innerText = "Enter correct time";
+          return;
+        }
+
         const [hours, minutes] = time.split(":").map(Number);
         const totalTimeInHours = hours + minutes / 60;
         const amount = totalTimeInHours * ratePerHour;
@@ -117,6 +124,13 @@
           e.preventDefault();
 
           const selectedTime = document.getElementById("time").value;
+
+          // Validate selected time
+          if (selectedTime === "00:00" || selectedTime === "") {
+            alert("Please enter a valid time.");
+            return;
+          }
+
           const slot = getSlotFromTime(selectedTime);
           const amount =
             (parseInt(selectedTime.split(":")[0]) +
